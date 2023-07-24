@@ -149,8 +149,7 @@ To run frontend use the following command
 npm start
 ```
 
-
-
+In order for users to buy NFTs, the admin must set the price for each NFT type before users can make a purchase.
 
 
 ### Usage Considerations
