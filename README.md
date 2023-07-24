@@ -2,12 +2,59 @@
 Solidity smart contracts for selling NFTs with a post-mint reveal mechanic.
 
 
+
+
 This workspace contains 4 directories:
 
 1. 'contracts': Holds two contract NFT contract and Minting Contract.
 2. 'scripts': Contains two js files to deploy a contract.
 3. 'tests': Contains one Solidity test file for 'NFT and Minting' contract.
 4. 'server': Contains one index.html and index.js files for basic frontend and metamask integration'.
+
+# Setup Instructions
+To set up and run the project, follow these steps:
+
+## Prerequisites
+Before proceeding, ensure you have the following software installed on your system:
+
+Node.js: Download [Node.js](https://nodejs.org/en)
+Hardhat: Hardhat [Documentation](https://hardhat.org/)
+ethers.js v5: [ethers.js Documentation](https://docs.ethers.org/v5/)
+
+### Step 1: Clone the Repository
+First, clone the repository to your local machine using Git:
+
+```shell
+git clone <repository_url>
+
+```
+### Step 2: Install Dependencies
+Change your current directory to the project folder and install the required Node.js dependencies:
+
+
+```shell
+cd <project_folder>
+npm install
+
+```
+
+### Step 3: Configure Hardhat
+Before running the project, you need to configure the Hardhat network. You can do this by modifying the hardhat.config.js file to specify the network settings and other configurations.
+
+### Step 4: Compile Contracts
+Compile the smart contracts to generate the artifacts required for the deployment:
+
+```shell
+npx hardhat compile
+```
+
+### Step 5: Run Tests (Optional)
+If the project includes unit tests for the contracts, you can run them to ensure everything is functioning correctly:
+
+```shell
+npx hardhat compile
+npx hardhat test
+```
 
 
 
@@ -103,50 +150,6 @@ npm start
 ```
 
 
-# Setup Instructions
-To set up and run the project, follow these steps:
-
-## Prerequisites
-Before proceeding, ensure you have the following software installed on your system:
-
-Node.js: Download [Node.js](https://nodejs.org/en)
-Hardhat: Hardhat [Documentation](https://hardhat.org/)
-ethers.js v5: [ethers.js Documentation](https://docs.ethers.org/v5/)
-
-### Step 1: Clone the Repository
-First, clone the repository to your local machine using Git:
-
-```shell
-git clone <repository_url>
-
-```
-### Step 2: Install Dependencies
-Change your current directory to the project folder and install the required Node.js dependencies:
-
-
-```shell
-cd <project_folder>
-npm install
-
-```
-
-### Step 3: Configure Hardhat
-Before running the project, you need to configure the Hardhat network. You can do this by modifying the hardhat.config.js file to specify the network settings and other configurations.
-
-### Step 4: Compile Contracts
-Compile the smart contracts to generate the artifacts required for the deployment:
-
-```shell
-npx hardhat compile
-```
-
-### Step 5: Run Tests (Optional)
-If the project includes unit tests for the contracts, you can run them to ensure everything is functioning correctly:
-
-```shell
-npx hardhat compile
-npx hardhat test
-```
 
 
 
