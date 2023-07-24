@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connect to MetaMask</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #32a5e0, #d4145a);
+      overflow: hidden;
+      animation: animateBackground 10s infinite linear;
+    }
+
+    @keyframes animateBackground {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 500% 500%;
+      }
+    }
+
+    #app {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    h1 {
+      font-size: 28px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #fff;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #f1f1f1;
+    }
+    .input-field {
+  display: block;
+  width: 90%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 5px;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.input-field:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.input-field:hover {
+  border-color: #6c757d;
+}
+
+.input-field:disabled {
+  background-color: #e9ecef;
+  opacity: 0.65;
+}
+
+.input-field.is-invalid {
+  border-color: #dc3545;
+}
+
+.input-field.is-invalid + .invalid-feedback {
+  display: block;
+  width: 90%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Connect to MetaMask</h1>
+    <button id="connectWalletBtn">Connect to MetaMask</button>
+    <input placeholder="Token Type" type="text" class="input-field" id="tokentype">
+    <input placeholder="Value" type="number" class="input-field" id="value">
+    <button id="mintNFT">Buy NFT</button>
+    
+  </div>
+
+  <!-- Include Web3.js using a script tag -->
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+
+  <script>
+    let userAddress;
+
+    window.ethereum.on('accountsChanged', function (accounts) {
+        userAddress = accounts[0];
+        console.log(accounts[0])
+    })
+    
+    // Function to connect to MetaMask
+    async function connectToMetaMask() {
+      if (window.ethereum) {
+        try {
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          console.log('Connected to MetaMask!');
+          alert('Connected to MetaMask!');
+        } catch (error) {
+          console.error('User denied account access or MetaMask not connected.');
+          alert('User denied account access or MetaMask not connected.');
+        }
+      } else {
+        console.error('MetaMask not found or Web3 provider not available.');
+        alert('MetaMask not found or Web3 provider not available.');
+      }
+    }
+
+  async function buyNFT() {
+  if (window.ethereum) {
+    try {
+      // Request access to the user's MetaMask account
+      await window.ethereum.enable();
+
+      // Initialize Web3 with MetaMask provider
+      const web3 = new Web3(window.ethereum);
+
+      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      console.log(chainId);
+      if (chainId !=  "0x13881"){ 
+        alert('Please connect to Mumbai Polygon.');
+      }
+      else{
+
+        // Your contract address and ABI
+        const contractAddress = "0x509A5A6E8B0F53a8Ef33E20649C6eeEF8610F345";
+        const contractABI = [{"inputs":[{"internalType":"address","name":"nftContract","type":"address"},{"internalType":"string","name":"_blacknft","type":"string"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"account","type":"address"}],"name":"AdminGranted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"account","type":"address"}],"name":"AdminRevoked","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"account","type":"address"},{"indexed":false,"internalType":"string","name":"tokenType","type":"string"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"NFTPurchased","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[{"internalType":"string","name":"tokenType","type":"string"}],"name":"buyNFT","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"string","name":"tokenType","type":"string"}],"name":"getNFTPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"admin","type":"address"}],"name":"grantAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"isAdmin","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"admin","type":"address"}],"name":"revokeAdmin","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"nftContract","type":"address"}],"name":"setNFTContract","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"tokenType","type":"string"},{"internalType":"uint256","name":"priceInMATIC","type":"uint256"}],"name":"setNFTPrice","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"tokenType","type":"string"},{"internalType":"uint256","name":"revealTime","type":"uint256"}],"name":"setRevealTime","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"uri","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address payable","name":"recipient","type":"address"}],"name":"withdrawFunds","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+
+        // Example parameters for the buyNFT function
+        const tokentype = document.getElementById('tokentype').value;
+        // const value = web3.utils.toWei("0.2", "ether");
+        const value = web3.utils.toWei(document.getElementById('value').value, "ether");
+        if(!tokentype || value=='' || value==undefined || value==null){
+          alert('Please enter deatils');
+          return false;
+        }
+        // Create a contract instance
+        const contract = new web3.eth.Contract(contractABI, contractAddress);
+
+
+        // Get the user's account address
+        const accounts = await web3.eth.getAccounts();
+        userAddress = accounts[0];
+
+        // Send the transaction to the contract
+        const tx = await contract.methods.buyNFT(tokentype).send({
+          from: userAddress,
+          value: value,
+          gas: 200000 // Set an appropriate gas value
+        });
+
+        const receipt = await tx.wait();
+
+        // Handle the receipt and check for events emitted by the contract
+        for (const event of receipt.events) {
+          if (event.event === "NFTPurchased") {
+            const { account, tokenId } = event.args;
+            console.log(`NFT purchased by ${account} with tokenId ${tokenId}`);
+          }
+        }
+      }
+
+      } catch (error) {
+      // Display the error message
+      console.error("Error:", error.message);
+      alert(error.message);
+      }
+
+    } else {
+      console.error("MetaMask not found.");
+    }
+}
+
+    
+    document.getElementById('connectWalletBtn').addEventListener('click', connectToMetaMask);
+    document.getElementById('mintNFT').addEventListener('click', buyNFT);
+
+ </script>
+</body>
+</html>
